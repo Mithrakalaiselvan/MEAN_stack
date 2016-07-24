@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+      <% include ../common/head %>
+  </head>
+  <body>
+  <header>
+        <% include ../common/header %>
+    </header>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <form method="POST" action="/register/add" align="center">
+    <div>
+    <table align="center">
+    <tr>
+    <td>
+    <label>FirstName:</label>
+    </td>
+    <td>
+    <input placeholder="firstname" name="firstname" type="text"/>
+    </td>
+    </tr>
+
+    <tr>
+    <td>
+    <label>LastName:</label>
+    </td>
+    <td>
+    <input placeholder="lastname" name="lastname" type="text"/>
+    </td>
+    </tr>
+
+    <tr>
+    <td>
+    <label>Date of birth:</label>
+    </td>
+    <td>
+    <input placeholder="dob" name="dob" type="date"/>
+    </td>
+    </tr>
+
+    <tr>
+    <td>
+    <label>Mobile:</label>
+    </td>
+    <td>
+    <input placeholder="mobile number" name="mobilenumber" type="number"/>
+    </td>
+    </tr>
+  
+    <tr>
+    <td>
+    <label>Email Id:</label>
+    </td>
+    <td>
+    <input placeholder="email id" name="email" type="email"/>
+    </td>
+    </tr>
+ 
+    <tr>
+    <td>
+    <label>Gender:</label>
+    </td>
+    <td>
+    <input type="radio" name="gender" value="male" checked/> Male
+    <input type="radio" name="gender" value="female"/> Female<br>
+    </td>
+    </tr>
+  
+    <tr>
+    <td>
+    <label>Country:</label>
+    </td>
+    <td>
+    <select name="country">
+    <option value="India">India</option>
+    <option value="Srilanka">Srilanka</option>
+    <option value="Pakistan">Pakistan</option>
+    </select>
+    </td>
+    </tr>
+   
+    <tr>
+    <td></td>
+    <td>
+    <input name="send" type="submit" value="submit" />
+    <input name="send" type="submit" value="reset" />
+    </td>
+    </tr>
+    </table>
+    </div>
+    </form>
+
+
+     <footer>
+        <% include ../common/footer %>
+    </footer>
+
+
+
+
+  </body>
+  
+</html>

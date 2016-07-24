@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title><%= title %></title>
+      <% include ../common/head %>
+   </head>
+ <script src="//oss.maxcdn.com/bootbox/4.2.0/bootbox.min.js"></script>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+
+<script>
+
+$(document).ready(function() {
+ $('.editButton').on('click', function() {
+        // Get the record's ID via attribute
+        var email_id = $(this).attr('data');
+        console.log(email_id);
+
+        $.ajax({
+            url:'/edit/'+ email_id,
+            method: 'GET'/*,
+            params:{email_id:email_id}*/
+        }).success(function(response) {
+            // Populate the form fields with the data returned from server
+            $('#userForm')
+                .find('[name="Id"]').val(response.contact._id).end()
+                .find('[name="fName"]').val(response.contact.fName).end()
+                .find('[name="lName"]').val(response.contact.lName).end()
+                .find('[name="dob"]').val(response.a).end()
+                .find('[name="mobile"]').val(response.contact.mobile).end()
+                .find('[name="email"]').val(response.contact.email).end()
+                .find('[name="gender"]').val(response.contact.gender).end()
+                .find('[name="country"]').val(response.contact.country).end();
+
+            // Show the dialog
+            bootbox
+                .dialog({
+                    title: 'Edit the Contact',
+                    message: $('#userForm'),
+                    show: false // We will show it manually later
+                })
+                .on('shown.bs.modal', function() {
+                    $('#userForm')
+                        .show()                             // Show the login form
+                        // .formValidation('resetForm'); // Reset form
+                })
+                .on('hide.bs.modal', function(e) {
+                    // Bootbox will remove the modal (including the body which contains the login form)
+                    // after hiding the modal
+                    // Therefor, we need to backup the form
+                    $('#userForm').hide().appendTo('body');
+                })
+                .modal('show');
+        })
+    })
+})
+   </script>
+   <body>
+      <header>
+         <% include ../common/header %>
+      </header>
+      <h1><%= title %></h1>
+      <p>Welcome to <%= title %></p>
+         <!-- //search bar  -->
+
+          <form action="/search" method="get" >
+           <div class="form-group pull-right">
+              <input type="text" class="search form-control" placeholder="search" name="fName">
+              <button type="submit" class="btn btn-default">Search</button>
+           </div>
+           </form>
+
+         <!-- table view -->
+         <table align="center" class="table table-hover table-bordered results">
+            <tr>
+               <th>FirstName</th>
+               <th>LastName</th>
+               <th>Date of Birth</th>
+               <th>Mobile</th>
+               <th>Email Id</th>
+               <th>Gender</th>
+               <th>Country</th>
+            </tr>
+            <% for(var i=0;i<data.length;i++){ %>
+            <tbody>
+            <tr>
+               <td>
+                  <input placeholder="firstname" name="firstname" type="text" value="<%=data[i].fName%>" readonly/>
+               </td>
+               <td>
+                  <input placeholder="lastname" name="lastname" type="text" value="<%=data[i].lName%>" readonly/>
+               </td>
+               <td>
+                  <input placeholder="dob" name="dob" type="text" value="<%=moment(data[i].dob).format("MM/DD/YYYY")%>"/ readonly>
+               </td>
+               <td>
+                  <input placeholder="mobile number" name="mobilenumber" type="number" value="<%=data[i].mobile%>" readonly/>
+               </td>
+               <td>
+                  <input placeholder="email id" name="email" type="email" value="<%=data[i].email%>" readonly/>
+               </td>
+               <td>
+                  <input placeholder="gender" name="gender" type="text" value="<%=data[i].gender%>" readonly/>
+               </td>
+               <td>
+                  <input placeholder="country" name="country" type="text" value="<%=data[i].country%>" readonly/>
+               </td>
+               <td>
+                  <!-- <a href='/register/edit?email_id=<%= data[i].email %>'>Edit</a> --> 
+                  <button type="button" data="<%= data[i].email%>" class="btn btn-default editButton">Edit</button>
+               </td>
+               <td>
+                  <a href='/delete?email_id=<%=data[i].email%>' class="btn btn-default">Delete</a>
+                  </td>
+
+                  <!-- <button onclick="window.location='/delete?email_id=<%= data[i].email%>';">DELETE</button>
+               </td> -->
+               <%}%>
+              </tr>
+            </tbody>
+         </table>
+      
+
+
+     <div class="container" align="right">
+          <ul class="pagination">
+            <li><a href="/view">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+          </ul>
+    </div>
+
+
+
+
+
+
+      <!-- for the model popup -->
+      <form id="userForm" method="POST" class="form-horizontal" style="display: none;" action="/update">
+    <div class="form-group">
+        <label class="col-xs-3 control-label">FirstName</label>
+        <div class="col-xs-3">
+            <input type="text" class="form-control" name="fName"/>
+            <input type="hidden" name="Id"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-xs-3 control-label">LastName</label>
+        <div class="col-xs-5">
+            <input type="text" class="form-control" name="lName" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-xs-3 control-label">Date Of Birth</label>
+        <div class="col-xs-5">
+            <input type="text" class="form-control" name="dob"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-xs-3 control-label">Email Id</label>
+        <div class="col-xs-5">
+            <input type="text" class="form-control" name="email" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-xs-3 control-label">Mobile</label>
+        <div class="col-xs-5">
+            <input type="text" class="form-control" name="mobile" />
+        </div>
+    </div>
+
+
+   <div class="form-group">
+        <label class="col-xs-3 control-label">Gender</label>
+        <div class="col-xs-5">
+            <input type="text" class="form-control" name="gender"/>
+            <input type="radio" name="gender1" value="Male"/>Male
+            <input type="radio" name="gender1" value="Female"/>Female
+
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="col-xs-3 control-label">Country</label>
+        <div class="col-xs-5">
+            <select name="country">
+            <option >India</option>
+            <option >Srilanka</option>
+            <option >Pakistan</option>
+            </select>
+        </div>
+    </div>
+    
+
+
+    <div class="form-group">
+        <div class="col-xs-5 col-xs-offset-3">
+            <button type="submit" class="btn btn-default">Update</button>
+        </div>
+    </div>
+</form>
+
+      <footer>
+         <% include ../common/footer %>
+      </footer>
+   </body>
+</html>
