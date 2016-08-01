@@ -13,7 +13,6 @@ var contact = require('./routes/contact');
 var app = express();
 
 
-//
 mongoose.connect('mongodb://localhost:27017/contact');
 
 // view engine setup

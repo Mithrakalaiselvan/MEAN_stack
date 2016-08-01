@@ -1,0 +1,125 @@
+<html>
+  <head>
+<title>Bars and Grpahs</title>
+      <% include ../common/head %>
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+  </head>
+<body>
+
+<header>
+        <% include ../common/header %>
+</header>
+
+<div id = "chart" class="chart">
+    <script>
+
+         var data;
+
+             $.getJSON('/getData', function( response ) {
+                       data = response;
+                       
+                       console.log(data);
+              
+
+              
+
+          var margin = {top: 20, right: 20, bottom: 70, left: 40},
+              width = 700 - margin.left - margin.right,
+              height = 400 - margin.top - margin.bottom,
+              padding = 100;
+
+
+          var x = d3.scale.ordinal().rangeRoundBands([0,width],.05);
+          var y = d3.scale.linear().range([height, 0]);
+
+
+
+          var xAxis = d3.svg.axis()
+                        .scale(x)
+                        .orient("bottom")
+                        .ticks(5);
+
+          var yAxis = d3.svg.axis()
+                        .scale(y)
+                        .orient("left")
+                        .ticks(10);
+
+          var canvas = d3.select("body").selectAll("div.chart").append("svg")
+                         .attr("width",width+ margin.left + margin.right)
+                         .attr("height",height+ margin.top + margin.bottom)
+                         .append("g")
+                         .attr("transform","translate(" + margin.left + "," + margin.top + ")");
+
+
+          d3.select("#chart").attr("align","center")
+          
+          //d3.json("js/revenue.json",function(data){
+
+               x.domain(data.map(function(d) {return d.year; }));
+               y.domain([0,d3.max(data, function(d){return d.value; })]);
+
+               
+               canvas.append("g")
+                     .attr("class","x axis")
+                     .attr("transform", "translate(0," + height + ")")
+                     .call(xAxis)
+                     .selectAll("text")
+                     .style("text-anchor", "end")
+                     .attr("dx", "-.8em")
+                     .attr("dy", "-.55em")
+                     .attr("transform", "rotate(-90)" );
+
+
+
+
+
+               canvas.append("g")
+                     .attr("class", "y axis")
+                     .call(yAxis)
+                     .append("text")
+                     .attr("transform"," rotate(-90)")
+                     .attr("y",6)
+                     .attr("dy", ".71em")
+                     .style("text-anchor", "end");
+                     
+
+
+             canvas.selectAll("bar")
+                     .data(data)
+                     .enter()
+                     .append("rect")
+                     .style("fill", "teal")
+                     .attr("x", function(d) { return x(d.year); })
+                     .attr("width", x.rangeBand())
+                     .attr("y", function(d) { return y(d.value); })
+                     .attr("height", function(d) { return height - y(d.value); });       
+
+            
+
+               //X-Axis
+               canvas.append("text")
+                     .attr("text-anchor", "middle")  
+                     .attr("transform", "translate("+ (700/2) +","+(400-(100/3))+")")
+                     .attr("font-weight","bold")
+                     .text("Year");
+            
+              //Y-Axis
+              canvas.append("text")
+                    .attr("text-anchor", "middle")
+                    .attr("transform", "translate(-28,150) rotate(-90)")
+                    .attr("font-weight","bolder")
+                    .text("Revenue ($)");
+
+
+
+
+          });
+
+    </script>
+    </div>
+    <footer>
+        <% include ../common/footer %>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,6 @@
+[
+{"_id":{"$oid":"5799908cff48b50e02fe217a"},"country":"Srilanka","gender":"male","email":"milind@gmail.com","mobile":9.086847821e+09,"dob":{"$date":"2016-07-27T00:00:00.000Z"},"lName":"Mahajan","fName":"Milind","__v":0},
+{"_id":{"$oid":"579990acff48b50e02fe217b"},"country":"India","gender":"female","email":"kmithra.kalaiselvan@gmail.com","mobile":9.047135545e+09,"dob":{"$date":"1994-08-30T18:30:00.000Z"},"lName":"kalaiselvan","fName":"mithra","__v":0},
+{"_id":{"$oid":"579a04e8968819c9046d8ae1"},"country":"Pakistan","gender":"male","email":"naresh@gmail.com","mobile":8.769010231e+09,"dob":{"$date":"1992-07-28T00:00:00.000Z"},"lName":"Shetty","fName":"Naresh","__v":0},
+{"_id":{"$oid":"579a0529968819c9046d8ae2"},"country":"India","gender":"female","email":"shreya@gmail.com","mobile":7.865784918e+09,"dob":{"$date":"1990-03-03T00:00:00.000Z"},"lName":"Ghoshal","fName":"Shreya","__v":0}
+]

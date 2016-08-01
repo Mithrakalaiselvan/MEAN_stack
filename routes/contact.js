@@ -1,6 +1,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var Register = require('../models/register');
+var Revenue = require('../models/revenue');
 var moment  = require('moment');
 var router = express.Router();
 
@@ -8,9 +9,6 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
-
-
-
 
 router.post('/register/add',function(req,res,next){
 	var register = new Register();
@@ -35,13 +33,6 @@ router.post('/register/add',function(req,res,next){
 });
 
 
-
-
-
-
-
-
-
 router.get('/view',function(req,res,next){
 	  
 
@@ -53,10 +44,47 @@ router.get('/view',function(req,res,next){
         else{
         	
             res.render('pages/showContacts',{title:'Edit Contacts',message:'success',data:contacts,moment:moment});
+            
         }
 
       })
 });
+
+
+router.get('/getData',function(req,res,next){
+
+       Revenue.find(function(err,revenue){
+
+           
+           if(err){
+        	res.json({'message':'something went wrong with the database'});
+                  }
+           else{
+            res.json(revenue);
+            }
+
+       }) 
+})
+
+router.post('/postData',function(req,res,next){
+        
+        var revenue = new Revenue();
+        revenue.year = req.body.year;
+        revenue.value = req.body.value;
+
+
+        revenue.save(function(err,revenue){
+            
+            if(err){
+            	res.json({'message':'something went wrong with the database'});
+            }
+            else{
+
+               res.send("success");
+            }
+		})    
+})
+
 
 
 
@@ -64,6 +92,7 @@ router.get('/view',function(req,res,next){
 router.get('/edit/:email_id',function(req,res,next){
 
 	var email = req.params.email_id;
+	
 	
 	Register.findOne({'email':email},function(err,contact){
 		if(err){
@@ -156,4 +185,9 @@ router.post('/update',function(req,res){
 	})
     
 });
+
+router.get('/bars',function(req,res){
+	res.render('pages/bars');
+})
+
 module.exports = router;
