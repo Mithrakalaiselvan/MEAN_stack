@@ -15,6 +15,7 @@ router.get('/example', function(req, res, next) {
 })
 router.get('/register',function(req,res,next){
 	res.render('pages/register',{title:'Register'});
+	console.log('hi');
 })
 router.get('/contact',function(req,res,next){
 	res.render('pages/contact',{title:'Contact'});
