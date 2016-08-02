@@ -188,6 +188,7 @@ router.post('/update',function(req,res){
 
 router.get('/bars',function(req,res){
 	res.render('pages/bars');
+	console.log("a");
 })
 
 module.exports = router;
