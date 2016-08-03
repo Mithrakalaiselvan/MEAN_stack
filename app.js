@@ -60,5 +60,6 @@ app.use(function(err, req, res, next) {
   });
 });
 
+console.log("app.js");
 
 module.exports = app;
